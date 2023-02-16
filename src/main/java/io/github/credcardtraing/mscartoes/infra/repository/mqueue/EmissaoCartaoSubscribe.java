@@ -8,12 +8,14 @@ import io.github.credcardtraing.mscartoes.domain.DadosSolicitacaoCartao;
 import io.github.credcardtraing.mscartoes.infra.repository.CartaoRepository;
 import io.github.credcardtraing.mscartoes.infra.repository.ClienteCartaoRepository;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 
 @Component
 @AllArgsConstructor
+@Slf4j
 public class EmissaoCartaoSubscribe {
 
     private final CartaoRepository cartaoRepository;
@@ -32,7 +34,7 @@ public class EmissaoCartaoSubscribe {
             clienteCartaoRepository.save(clienteCartao);
 
         }catch (Exception e){
-            e.printStackTrace();
+            log.error("erro ao receber solicitacao de emissao de cartao: {}", e.getMessage());
         }
     }
 
